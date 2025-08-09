@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0.411 AS build
 WORKDIR /src
 
 # Copy the entire repo (solution + projects) now that our context is the repo root
