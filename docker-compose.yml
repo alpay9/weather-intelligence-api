@@ -7,15 +7,16 @@
       - "8080:8080"
     environment:
       ASPNETCORE_URLS: http://0.0.0.0:8080
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=weather;Username=app;Password=app
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__Postgres: ${DB_CONNECTION}
       Redis__Connection: redis:6379
       Jwt__Issuer: WeatherIntel
       Jwt__Audience: WeatherIntel
       Jwt__AccessTokenMinutes: 15
+      JWT_SECRET: ${JWT_SECRET}
       RateLimits__WeatherPerMinute: 10
       RateLimits__InsightsPerMinute: 2
-      OpenAI__ApiKey: 
+      OpenAI__ApiKey: ${OPENAI_API_KEY}
     depends_on:
       - postgres
       - redis
