@@ -1,6 +1,8 @@
-using System.Threading.RateLimiting;
+﻿using System.Threading.RateLimiting;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,10 @@ builder.Services.AddFluentValidationAutoValidation();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// EF Core (Postgres)
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
 
 // Rate limiting policies (values from config)
 var weatherPerMin = builder.Configuration.GetValue<int>("RateLimits:WeatherPerMinute", 10);
@@ -53,6 +59,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseRateLimiter();
 
-app.MapControllers(); // We’ll add /api/v1 routing later
+app.MapControllers(); // We'll add /api/v1 routing on controllers later
 
 app.Run();
